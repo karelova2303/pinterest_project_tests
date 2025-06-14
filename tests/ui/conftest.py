@@ -3,7 +3,8 @@ import os
 import allure_commons
 import pytest
 from dotenv import load_dotenv
-from selene import browser, support
+from selene import browser, support, Browser
+from selene.core.configuration import Config
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -50,7 +51,8 @@ def browser_manager(request):
         options=options
     )
 
-    browser.config.driver = driver
+    # browser.config.driver = driver
+    browser = Browser(Config(driver))
     browser.config.base_url = 'https://ru.pinterest.com'
     browser.driver.maximize_window()
     browser.config.timeout = 15.0
