@@ -51,8 +51,7 @@ def browser_manager(request):
         options=options
     )
 
-    # browser.config.driver = driver
-    browser = Browser(Config(driver))
+    browser.config.driver = driver
     browser.config.base_url = 'https://ru.pinterest.com'
     browser.driver.maximize_window()
     browser.config.timeout = 15.0
@@ -79,6 +78,6 @@ def attach_with_test():
     yield browser
 
     attach.add_screenshot(browser)
-    attach.add_logs(browser)
+    # attach.add_logs(browser)
     attach.add_html(browser)
     attach.add_video(browser)
