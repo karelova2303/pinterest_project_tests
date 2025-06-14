@@ -23,7 +23,7 @@ class TestSearch:
         with step('Отображаются пины'):
             app.search_page.should_be_visible_pin()
 
-    @allure.title('Проверка поиска при выборе из меню "Идеи для вам"')
+    @allure.title('Проверка поиска при выборе из меню "Идеи для вас"')
     def test_search_on_suggestion(self, browser_manager, authorization_user, attach_with_test):
         # WHEN
         with step('Кликнуть кнопку логотипа'):
