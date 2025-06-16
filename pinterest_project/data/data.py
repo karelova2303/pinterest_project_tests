@@ -1,6 +1,6 @@
 
 test_email = 'e.karelova2303@gmail.com'
-test_pass = 'Kk123456'
+test_pass = 'Aa123456'
 description = 'Здесь моя история'
 web_site = 'http://mysite.ru'
 profile_name = 'E Karelova'
