@@ -1,14 +1,4 @@
 from pathlib import Path
-import pinterest_project
-
-
-def abs_path_from_project(relative_path: str):
-    return (
-        Path(pinterest_project.__file__)
-        .parent.parent.joinpath(relative_path)
-        .absolute()
-        .__str__()
-    )
 
 
 def path_images(file_name):

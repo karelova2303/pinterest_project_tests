@@ -3,8 +3,7 @@ import os
 import allure_commons
 import pytest
 from dotenv import load_dotenv
-from selene import browser, support, Browser
-from selene.core.configuration import Config
+from selene import browser, support
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -40,7 +39,7 @@ def browser_manager(request):
         "browserName": 'chrome',
         "browserVersion": browser_version,
         "selenoid:options": {
-            "enableVNC": True,
+            "enableVNC": False,
             "enableVideo": True,
         }
     }
@@ -78,6 +77,6 @@ def attach_with_test():
     yield browser
 
     attach.add_screenshot(browser)
-    # attach.add_logs(browser)
+    attach.add_logs(browser)
     attach.add_html(browser)
     attach.add_video(browser)
