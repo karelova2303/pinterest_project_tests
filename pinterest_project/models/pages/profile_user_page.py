@@ -1,5 +1,4 @@
-import os
-
+from allure_commons._allure import step
 from selene import browser, be, have
 
 from pinterest_project import utils
@@ -19,8 +18,7 @@ class UserPage:
         self.following_count = browser.element('[data-test-id="profile-following-count"]')
         self.share_profile_button = browser.element('[data-test-id="share-profile-auth"] > [type = "button"]')
         self.edit_profile_button = browser.element('[data-test-id="edit-button"]')
-        self.created_profile_tab = browser.element('#_profile\/_created-profile-tab > a')
-        self.saved_profile_tab = browser.element('#_profile\/_saved-profile-tab > a')
+
 
         self.boards_tab = browser.element('#_boards-profile-tab')
         self.board = browser.element('[data-test-id="pwt-grid-item"]')
@@ -41,62 +39,66 @@ class UserPage:
 
 
     def open_profile_user(self):
-        self.header_profile.click()
+        with step('Открыть профиль пользователя'):
+            self.header_profile.click()
 
     def open_public_profile_user(self):
-        self.open_profile_user()
-        self.button_view_profile.click()
+        with step('Открыть публичный профиль'):
+            self.open_profile_user()
+            self.button_view_profile.click()
 
     def open_pins_tab(self):
-        self.pins_tab.click()
+        with step('Кликнуть таб "Пины"'):
+            self.pins_tab.click()
 
-    def should_be_visible_pins(self):
-        self.pin.should(be.visible)
+    def pins_should_be_visible(self):
+        with step('Отображается вкладка с сохраненными пинами'):
+            self.pin.should(be.visible)
 
     def open_boards_tab(self):
-        self.boards_tab.click()
+        with step('Кликнуть таб "Доски"'):
+            self.boards_tab.click()
 
-    def should_be_visible_boards(self):
-        self.board.should(be.visible)
+    def boards_should_be_visible(self):
+        with step('Отображается вкладка с сохраненными досками'):
+            self.board.should(be.visible)
 
-    def should_be_visible_profile_name(self, value):
-        self.profile_name.should(have.exact_text(value))
+    def profile_name_should_be_visible(self, profile_name):
+        with step(f'Имя профиля "{profile_name}"'):
+            self.profile_name.should(have.exact_text(profile_name))
 
-    def should_be_visible_profile_username(self, value):
-        self.profile_username.should(have.exact_text(value))
+    def profile_username_should_be_visible(self, profile_username):
+        with step(f'Имя пользователя "{profile_username}"'):
+            self.profile_username.should(have.exact_text(profile_username))
 
-    def should_be_visible_following_count(self, value):
-        self.following_count.should(have.exact_text(value))
+    def following_count_should_be_visible(self, follower_count):
+        with step(f'Количество подписок "{follower_count}"'):
+            self.following_count.should(have.exact_text(follower_count))
 
-    def should_be_visible_share_profile_button(self):
-        self.share_profile_button.should(be.visible)
-
-    def should_be_visible_edit_profile_button(self):
-        self.edit_profile_button.should(be.visible)
-
-    def should_be_visible_created_profile_tab(self):
-        self.created_profile_tab.should(be.visible)
-
-    def should_be_visible_saved_profile_tab(self):
-        self.saved_profile_tab.should(be.visible)
 
     def click_share_profile_button(self):
-        self.share_profile_button.click()
+        with step('Кликнуть кнопку "Поделиться"'):
+            self.share_profile_button.click()
 
-    def should_be_visible_copy_link_icon(self):
-        self.copy_link_icon.should(be.clickable)
+    def copy_link_icon_should_be_clickable(self):
+        with step('Иконка "Копировать ссылку" кликабельна'):
+            self.copy_link_icon.should(be.clickable)
 
-    def should_be_visible_whatsapp_icon(self):
-        self.whatsapp_icon.should(be.clickable)
+    def whatsapp_icon_should_be_clickable(self):
+        with step('Иконка "WhatsApp" кликабельна'):
+            self.whatsapp_icon.should(be.clickable)
 
-    def should_be_visible_messenger_icon(self):
-        self.messenger_icon.should(be.clickable)
+    def messenger_icon_should_be_clickable(self):
+        with step('Иконка "Messenger" кликабельна'):
+            self.messenger_icon.should(be.clickable)
 
-    def should_be_visible_facebook_icon(self):
-        self.facebook_icon.should(be.clickable)
+    def facebook_icon_should_be_clickable(self):
+        with step('Иконка "Facebook" кликабельна'):
+            self.facebook_icon.should(be.clickable)
 
-    def should_be_visible_twitter_icon(self):
-        self.twitter_icon.should(be.clickable)
+    def twitter_icon_should_be_clickable(self):
+        with step('Иконка "X" кликабельна'):
+            self.twitter_icon.should(be.clickable)
 
     def click_edit_profile_button(self):
         self.edit_profile_button.click()
@@ -114,7 +116,20 @@ class UserPage:
     def click_done_button(self):
         self.done_button.click()
 
-    def should_be_saved_data(self):
-        self.avatar_svg.should(be.visible)
-        self.about.should(have.exact_text(description))
-        self.website_url.should(have.value(web_site))
+    def edit_form_profile(self, foto, description, web_site):
+        with step('Кликнуть кнопку "Изменить профиль"'):
+            self.click_edit_profile_button()
+        with step('Загрузить фото профиля'):
+            self.upload_foto(foto)
+        with step('Добавить текст в поле "Описание"'):
+                self.input_about(description)
+        with step('Добавить ссылку в поле "Веб-сайт"'):
+            self.input_website_url(web_site)
+        with step('Кликнуть кнопку "Сохранить"'):
+            self.click_done_button()
+
+    def data_should_be_saved(self):
+        with step('Внесенные изменения отображаются'):
+            self.avatar_svg.should(be.visible)
+            self.about.should(have.exact_text(description))
+            self.website_url.should(have.value(web_site))
