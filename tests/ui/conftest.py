@@ -7,6 +7,7 @@ from selene import browser, support
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+from pinterest_project.data.data import test_email, test_pass
 from pinterest_project.models.app import app
 from pinterest_project.utils import attach
 
@@ -25,7 +26,7 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function', autouse=True)
 def browser_manager(request):
     selenoid_login = os.getenv("SELENOID_LOGIN")
     selenoid_pass = os.getenv("SELENOID_PASS")
@@ -39,7 +40,7 @@ def browser_manager(request):
         "browserName": 'chrome',
         "browserVersion": browser_version,
         "selenoid:options": {
-            "enableVNC": False,
+            "enableVNC": True,
             "enableVideo": True,
         }
     }
@@ -60,13 +61,9 @@ def browser_manager(request):
     browser.quit()
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='function')
 def authorization_user(browser_manager):
-    app.authorization.login_of_account()
-
-    yield
-
-    app.authorization.log_out_of_account()
+    app.authorization.account_login(test_email, test_pass)
 
 
 @pytest.fixture(scope='function')
