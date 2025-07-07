@@ -1,6 +1,5 @@
+from allure_commons._allure import step
 from selene import browser, have, be
-
-from pinterest_project.data.data import test_email, test_pass
 
 
 class AuthorizationPage:
@@ -29,23 +28,26 @@ class AuthorizationPage:
     def click_submit(self):
         self.submit.click()
 
-    def login_of_account(self):
-        self.open_homepage()
-        self.input_email(test_email)
-        self.input_password(test_pass)
-        self.click_submit()
+    def account_login(self, login, password):
+        with step('Вход в аккаунт'):
+            self.open_homepage()
+            self.input_email(login)
+            self.input_password(password)
+            self.click_submit()
 
-    def should_be_authorized_user(self, value):
-        self.account_button.click()
-        self.account_menu.should(have.text(value))
+    def user_should_be_authorized(self, value):
+        with step(f'Пользователь {value} авторизован'):
+            self.account_button.click()
+            self.account_menu.should(have.text(value))
 
     def log_out_of_account(self):
-        self.open_homepage()
-        self.account_button.click()
-        self.logout_button.click()
+        with step('Выход из аккаунта'):
+            self.account_button.click()
+            self.logout_button.click()
 
-    def should_be_unauthorized_user(self):
-        self.login_button.should(be.visible)
+    def login_button_should_be_visible(self):
+        with step('Пользователь не авторизован'):
+            self.login_button.should(be.visible)
 
     def click_button_logo(self):
         self.button_logo.click()
