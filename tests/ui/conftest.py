@@ -40,7 +40,7 @@ def browser_manager(request):
         "browserName": 'chrome',
         "browserVersion": browser_version,
         "selenoid:options": {
-            "enableVNC": True,
+            "enableVNC": False,
             "enableVideo": True,
         }
     }
