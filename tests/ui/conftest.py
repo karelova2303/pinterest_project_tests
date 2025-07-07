@@ -7,7 +7,7 @@ from selene import browser, support
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from pinterest_project.data.data import test_email, test_pass
+from pinterest_project.data.data import test_email, test_pass, account
 from pinterest_project.models.app import app
 from pinterest_project.utils import attach
 
@@ -63,7 +63,7 @@ def browser_manager(request):
 
 @pytest.fixture(scope='function')
 def authorization_user(browser_manager):
-    app.authorization.account_login(test_email, test_pass)
+    app.authorization.account_login(*account)
 
 
 @pytest.fixture(scope='function')
