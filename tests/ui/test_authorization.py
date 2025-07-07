@@ -7,7 +7,7 @@ from pinterest_project.models.app import app
 @allure.tag('Web', 'Prod')
 @allure.label('owner', 'Karelova Ekaterina')
 @allure.suite('Проверка авторизации пользователя')
-class TestAuth:
+class TestAuthorization:
 
     @allure.title('Авторизация пользователя')
     def test_should_be_authorized_user(self, browser_manager, attach_with_test):
@@ -16,7 +16,6 @@ class TestAuth:
 
         # THEN
         app.authorization.user_should_be_authorized(f'{test_email}')
-
 
 
     @allure.title('Разлогинивание пользователя')
