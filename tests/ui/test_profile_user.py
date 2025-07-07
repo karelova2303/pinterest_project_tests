@@ -1,7 +1,6 @@
 import allure
-from allure_commons._allure import step
 
-from pinterest_project.data.data import profile_name, profile_username, follower_count, description, web_site
+from pinterest_project.data.data import profile_name, profile_username, follower_count, description, web_site, foto
 from pinterest_project.models.app import app
 
 
@@ -10,93 +9,56 @@ from pinterest_project.models.app import app
 @allure.suite('Профиль пользователя')
 class TestProfileUser:
 
-    @allure.title('Проверка отображения публичного профиля')
-    def test_should_be_visible_public_profile(self, browser_manager, authorization_user, attach_with_test):
+    @allure.title('Проверка открытия страницы публичного профиля')
+    def test_open_public_profile(self, browser_manager, authorization_user, attach_with_test):
         # WHEN
-        with step('Открыть публичный профиль'):
-            app.user_page.open_public_profile_user()
+        app.user_page.open_public_profile_user()
 
         # THEN
-        with step('Имя профиля отображается'):
-            app.user_page.should_be_visible_profile_name(profile_name)
-        with step('Имя пользователя отображается'):
-            app.user_page.should_be_visible_profile_username(profile_username)
-        with step('Количество подписок отображается'):
-            app.user_page.should_be_visible_following_count(follower_count)
-        with step('Кнопка "Поделиться" отображается'):
-            app.user_page.should_be_visible_share_profile_button()
-        with step('Кнопка "Изменить профиль" отображается'):
-            app.user_page.should_be_visible_edit_profile_button()
-        with step('Вкладка "Созданные" отображается'):
-            app.user_page.should_be_visible_created_profile_tab()
-        with step('Вкладка "Сохраненные" отображается'):
-            app.user_page.should_be_visible_saved_profile_tab()
+        app.user_page.profile_name_should_be_visible(profile_name)
+        app.user_page.profile_username_should_be_visible(profile_username)
+        app.user_page.following_count_should_be_visible(follower_count)
 
 
     @allure.title('Проверка кликабельности иконок общего доступа')
-    def test_should_be_visible_share_menu(self, browser_manager, authorization_user, attach_with_test):
+    def test_icons_share_menu_clickable(self, browser_manager, authorization_user, attach_with_test):
         # WHEN
-        with step('Открыть публичный профиль'):
-            app.user_page.open_public_profile_user()
-        with step('Кликнуть кнопку "Поделиться"'):
-            app.user_page.click_share_profile_button()
+        app.user_page.open_public_profile_user()
+        app.user_page.click_share_profile_button()
 
         # THEN
-        with step('Иконка "Копировать ссылку" кликабельна'):
-            app.user_page.should_be_visible_copy_link_icon()
-        with step('Иконка "WhatsApp" кликабельна'):
-            app.user_page.should_be_visible_whatsapp_icon()
-        with step('Иконка "Messenger" кликабельна'):
-            app.user_page.should_be_visible_messenger_icon()
-        with step('Иконка "Facebook" кликабельна'):
-            app.user_page.should_be_visible_facebook_icon()
-        with step('Иконка "X" кликабельна'):
-            app.user_page.should_be_visible_twitter_icon()
+        app.user_page.copy_link_icon_should_be_clickable()
+        app.user_page.whatsapp_icon_should_be_clickable()
+        app.user_page.messenger_icon_should_be_clickable()
+        app.user_page.facebook_icon_should_be_clickable()
+        app.user_page.twitter_icon_should_be_clickable()
 
 
-    @allure.title('Проверка отображения вкладки "Пины"')
+    @allure.title('Проверка открытия вкладки "Пины"')
     def test_open_saved_pins(self, browser_manager, authorization_user, attach_with_test):
         # WHEN
-        with step('Открыть публичный профиль'):
-            app.user_page.open_profile_user()
-        with step('Кликнуть таб "Пины"'):
-            app.user_page.open_pins_tab()
+        app.user_page.open_profile_user()
+        app.user_page.open_pins_tab()
 
         # THEN
-        with step('Сохраненные пины отображаются'):
-            app.user_page.should_be_visible_pins()
+        app.user_page.pins_should_be_visible()
 
 
-    @allure.title('Проверка отображения вкладки "Доски"')
+    @allure.title('Проверка открытия вкладки "Доски"')
     def test_open_saved_boards(self, browser_manager, authorization_user, attach_with_test):
         # WHEN
-        with step('Открыть публичный профиль'):
-            app.user_page.open_profile_user()
-        with step('Кликнуть таб "Доски"'):
-            app.user_page.open_boards_tab()
+        app.user_page.open_profile_user()
+        app.user_page.open_boards_tab()
 
         # THEN
-        with step('Сохраненные доски отображаются'):
-            app.user_page.should_be_visible_boards()
+        app.user_page.boards_should_be_visible()
 
 
     @allure.title('Проверка редактирования профиля')
     def test_edit_form_profile_user(self, browser_manager, authorization_user, attach_with_test):
         # WHEN
-        with step('Открыть публичный профиль'):
-            app.user_page.open_public_profile_user()
-        with step('Кликнуть кнопку "Изменить профиль"'):
-            app.user_page.click_edit_profile_button()
-
-        with step('Загрузить фото профиля'):
-            app.user_page.upload_foto('foto.jpg')
-        with step('Добавить текст в поле "Описание"'):
-            app.user_page.input_about(description)
-        with step('Добавить ссылку в поле "Веб-сайт"'):
-            app.user_page.input_website_url(web_site)
-        with step('Кликнуть кнопку "Сохранить"'):
-                app.user_page.click_done_button()
+        app.user_page.open_public_profile_user()
+        app.user_page.edit_form_profile(foto, description, web_site)
 
         # THEN
-        with step('Внесенные изменения отображаются'):
-            app.user_page.should_be_saved_data()
+        app.user_page.data_should_be_saved()

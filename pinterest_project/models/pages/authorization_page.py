@@ -50,4 +50,5 @@ class AuthorizationPage:
             self.login_button.should(be.visible)
 
     def click_button_logo(self):
-        self.button_logo.click()
+        with step('Кликнуть кнопку логотипа'):
+            self.button_logo.click()
