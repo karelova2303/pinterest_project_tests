@@ -46,7 +46,7 @@ class AuthorizationPage:
             self.logout_button.click()
 
     def login_button_should_be_visible(self):
-        with step('Пользователь не авторизован'):
+        with step('Отображается кнопка "Log in"'):
             self.login_button.should(be.visible)
 
     def click_button_logo(self):
